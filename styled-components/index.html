@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Styled-Components</title>
+</head>
+
+<body>
+  <!--   <h1>Styled Components</h1> -->
+  <div id="container"></div>
+
+  <script>
+    function component(strings, ...dynamicValues) {
+      return function (props) {
+        let newContent = strings.slice()
+        console.log(newContent)
+        dynamicValues.forEach((value, index) => {
+          newContent[index] += props[value]
+        })
+        return newContent.join("")
+      }
+    }
+    const domElements = [
+      "a",
+      "p",
+      "h1",
+      "h2",
+      "h3",
+      "h4",
+      "h5",
+      "h6",
+      "div",
+      "main",
+      "section",
+      "article",
+      "button"
+    ];
+
+    let styled = {};
+
+    // Populate the styled object.
+    (function () {
+      domElements.forEach((element, index) => {
+        styled[element] = function (styles) {
+          return function (content) {
+            return `
+          <${domElements[index]} style="${styles}">
+          ${content}
+          </${domElements[index]}>
+        `;
+          };
+        };
+      });
+    })();
+
+    /* 
+        const styled = {
+          h1: function (styles) {
+            return function (content) {
+    
+              return `
+            <h1 style="${styles}">
+            ${content}
+            </h1>
+            `
+            }
+          },
+          h2: "",
+          div: ""
+        }
+     */
+    const TitleStyled = styled.h1`
+    color: orange;
+    font-family: verdana;
+    font-size: 50px;
+    text-shadow: 2px 2px 0 black;
+    line-height: 100vh;
+    `
+    const SubtitleStyled = styled.h3`
+    color: #32bcff;
+    font-family: system-ui;
+    font-size: 30px;
+    text-shadow: 2px 2px 0 black;
+    `;
+
+    const DescriptionStyled = styled.p`
+    color: #4d4d4f;
+    font-family: system-ui;
+    font-size: 20px;
+    `;
+
+
+    const props = {
+      message: "No te rindas",
+      subtitle: "This is a subtitle!",
+      description:
+        "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Inventore rerum unde nemo excepturi laboriosam eius asperiores reiciendis explicabo dicta harum!"
+    }
+
+    const Title = component`---- ${"message"} ----`(props);
+    const SubTitle = component`---- ${"subtitle"} ----`(props);
+    const Text = component`${"description"}`(props);
+
+    // Render the components
+
+    function render(component, app) {
+      container.innerHTML += component;
+    }
+
+    render(TitleStyled(Title), window.app);
+    render(SubtitleStyled(SubTitle), window.app);
+    render(DescriptionStyled(Text), window.app);
+
+
+  </script>
+</body>
+
+</html>
