@@ -8,7 +8,7 @@ import { REST } from "./actions/index.js"
 
 store.subscribe(() => {
 
-  window.result.textContent = `Haz quemado ${store.getState()} Calorías `
+  window.result.textContent = `Haz quemado ${store.getState()} 🔥 Calorías `
 
 })
 
